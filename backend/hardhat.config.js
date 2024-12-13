@@ -18,4 +18,14 @@ module.exports = {
     solidity: {
         version: "0.8.17",
     },
+    zksolc: {
+      version: "1.5.8", 
+      compilerSource: "binary", 
+      settings: {
+          optimizer: {
+              enabled: true,
+              runs: 200,
+          },
+      },
+  },  
 };
