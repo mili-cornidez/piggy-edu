@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { readData, writeData } = require("../backend/utils/fileUtils");
+const { readData, writeData } = require("../utils/fileUtils");
 
 const SECRET_KEY = process.env.SECRET_KEY;
 

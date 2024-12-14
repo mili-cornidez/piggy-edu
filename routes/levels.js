@@ -2,14 +2,16 @@ const express = require("express");
 const router = express.Router();
 const { readFileSync } = require("fs");
 const path = require("path");
-const authenticate = require("../backend/security/auth");
+const authenticate = require("../security/auth");
+
+const levelsPath = path.resolve('./data/levels.json');
 
 router.get("/:levelId", authenticate, (req, res) => {
   const { levelId } = req.params;
 
   try {
     const levels = JSON.parse(
-      readFileSync(path.join(__dirname, "../data/levels.json"), "utf-8")
+      readFileSync(levelsPath, "utf-8")
     ).levels;
 
     if (!levels[levelId]) {
