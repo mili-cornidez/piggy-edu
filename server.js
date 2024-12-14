@@ -9,6 +9,7 @@ app.use(express.json());
 
 const loginRoutes = require("./routes/login");
 const levelsRoutes = require("./routes/levels");
+const userRoutes = require("./routes/user");
 
 app.get("/", (req, res) => {
   res.json({ message: "Backend is running!" });
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 
 app.use("/login", loginRoutes);
 app.use("/levels", levelsRoutes);
+app.use("/user", userRoutes);
 
 module.exports = app;
 

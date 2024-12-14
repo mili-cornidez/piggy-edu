@@ -85,3 +85,22 @@ Obtiene datos de un nivel.
 #### Errores:
 - 401 si no hay token válido
 - 404 si el nivel no existe
+
+### GET /user
+
+Obtiene datos del usuario.
+
+**Headers:**
+- Authorization: Bearer `<tu-token-jwt>`
+
+**Respuesta:**
+```json
+{
+    "wallet": "0x1234567890abcdef",
+    "name": "Alice"
+}
+```
+
+#### Errores:
+- 401 si no hay token válido
+- 404 si el usuario no existe
