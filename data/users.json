@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "wallet": "0x123",
+      "name": "Alice"
+    },
+    {
+      "wallet": "0x1234567890abcdef",
+      "name": "Alice"
+    }
+  ]
+}

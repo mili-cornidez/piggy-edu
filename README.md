@@ -1,78 +1,87 @@
-# Piggy-Edu
+# Piggy-Edu Backend
+
+## Descripción
+
+API para **Piggy-Edu**
 
 ---
 
-## **Requisitos Previos**
+## Requisitos
 
-1. **Node.js** (versión 16 o superior).
-2. **NPM** o **Yarn** (incluido con Node.js).
-3. **Git** instalado en tu sistema.
-4. Claves y configuración para interactuar con **ZKsync Testnet**.
-5. Una cuenta en **GitHub** con acceso al repositorio.
+- **Node.js** (16 o superior)
+- **NPM** o **Yarn**
+- Archivo .env con:
 
----
+```env
+SECRET_KEY=<clave_secreta_para_JWT>
+PORT=3001
+```
 
-## **Instalación**
+## Instalación
 
-### 1. Clonar el Repositorio
+1. Clonar el repositorio:
+
 ```bash
 git clone https://github.com/mili-cornidez/piggy-edu.git
-cd piggy-edu
 ```
 
-### 2. Instalar Dependencias
-Instala las dependencias del frontend y backend:
+2. Instalar dependencias:
 
-Para el backend:
 ```bash
-cd backend
 npm install
 ```
 
-Para el frontend:
+3. Iniciar el servidor:
+
 ```bash
-cd frontend
-npm install
+npm start
 ```
 
----
+Disponible por defecto en `http://localhost:3001`.
 
-## **Configuración**
+## Endpoints Disponibles
 
-### 1. Variables de Entorno
-Crea un archivo `.env` en la carpeta backend y añade las siguientes variables:
-```env
-PRIVATE_KEY=<tu_clave_privada_para_ZKsync>
-INFURA_API_KEY=<tu_api_key_de_infura_para_eth_goerli>
-ZKSYNC_TESTNET_URL=https://zksync2-testnet.zksync.dev
-CONTRACT_ADDRESS=<direccion_del_contrato_principal>
+### POST /login
+
+Inicia sesión con una wallet y un nombre.
+
+**Body:**
+```json
+{
+    "wallet": "0x1234567890abcdef",
+    "name": "Alice"
+}
 ```
 
----
-
-## **Ejecución del Proyecto**
-
-### 1. Levantar el Backend
-Inicia el servidor backend:
-```bash
-npm run start:backend
+**Respuesta:**
+```json
+{
+    "message": "Login successful",
+    "user": {
+        "wallet": "0x1234567890abcdef",
+        "name": "Alice"
+    },
+    "token": "<tu-token-jwt>"
+}
 ```
-Esto ejecutará el servidor en `http://localhost:3000` (por defecto).
 
-### 2. Iniciar el Frontend
-Inicia el cliente frontend:
-```bash
-npm run start:frontend
+### GET /levels/:levelId
+
+Obtiene datos de un nivel.
+
+**Headers:**
+- Authorization: Bearer `<tu-token-jwt>`
+
+**Respuesta:**
+```json
+{
+    "id": 1,
+    "name": "Nivel 1",
+    "description": "Introducción a las finanzas",
+    "questions": [...]
+}
 ```
-Esto ejecutará la interfaz en `http://localhost:3001` (por defecto).
 
----
-
-
-## **Tecnologías Utilizadas**
-- **Node.js**: Backend.
-- **Hardhat**: Desarrollo y pruebas de contratos inteligentes.
-- **Ethers.js**: Interacción con blockchain.
-- **ZKsync Era**: Red blockchain Layer 2.
-
----
+#### Errores:
+- 401 si no hay token válido
+- 404 si el nivel no existe
