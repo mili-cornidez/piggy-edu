@@ -10,6 +10,10 @@ app.use(express.json());
 const loginRoutes = require("./routes/login");
 const levelsRoutes = require("./routes/levels");
 
+app.get("/", (req, res) => {
+  res.json({ message: "Backend is running!" });
+});
+
 app.use("/login", loginRoutes);
 app.use("/levels", levelsRoutes);
 
