@@ -14,8 +14,7 @@ router.get("/", authenticate, (req, res) => {
   }
   
   res.json({
-    wallet: user.wallet,
-    name: user.name
+    wallet: user.wallet
   });
 });
 

@@ -25,10 +25,6 @@ components:
           type: string
           example: "0x1234567890abcdef"
           description: User's blockchain wallet address
-        name:
-          type: string
-          example: "Alice"
-          description: User's display name
     
     LoginResponse:
       type: object
@@ -42,9 +38,6 @@ components:
             wallet:
               type: string
               example: "0x1234567890abcdef"
-            name:
-              type: string
-              example: "Alice"
         token:
           type: string
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -73,9 +66,6 @@ components:
         wallet:
           type: string
           example: "0x1234567890abcdef"
-        name:
-          type: string
-          example: "Alice"
 
     Token:
       type: object
@@ -89,6 +79,16 @@ components:
         address:
           type: string
           example: "0xabcdef1234567890"
+    
+    Paymaster:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Paymaster address"
+        address:
+          type: string
+          example: "0xDe6F1e5C07930AA9A65C9781A4885E6Bc76F9C52"
     
     Error:
       type: object
@@ -209,6 +209,32 @@ paths:
                 $ref: '#/components/schemas/Error'
         '404':
           description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /paymaster:
+    get:
+      summary: Get paymaster data
+      description: Retrieve the paymaster name and address
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Paymaster data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paymaster'
+        '401':
+          description: Unauthorized - Invalid or missing token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error reading the paymaster data
           content:
             application/json:
               schema:

@@ -43,13 +43,12 @@ Disponible por defecto en `http://localhost:3001`.
 
 ### POST /login
 
-Inicia sesión con una wallet y un nombre.
+Inicia sesión con una wallet address.
 
 **Body:**
 ```json
 {
-    "wallet": "0x1234567890abcdef",
-    "name": "Alice"
+    "wallet": "0x1234567890abcdef"
 }
 ```
 
@@ -58,8 +57,7 @@ Inicia sesión con una wallet y un nombre.
 {
     "message": "Login successful",
     "user": {
-        "wallet": "0x1234567890abcdef",
-        "name": "Alice"
+        "wallet": "0x1234567890abcdef"
     },
     "token": "<tu-token-jwt>"
 }
@@ -111,8 +109,7 @@ Obtiene datos del usuario.
 **Respuesta:**
 ```json
 {
-    "wallet": "0x1234567890abcdef",
-    "name": "Alice"
+    "wallet": "0x1234567890abcdef"
 }
 ```
 
