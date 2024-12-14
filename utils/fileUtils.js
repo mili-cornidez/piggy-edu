@@ -1,14 +1,13 @@
-const { readFileSync, writeFileSync } = require("fs");
-const path = require("path");
-
-const dataFilePath = path.join(__dirname, "../data/users.json");
+const defaultData = {
+  users: []
+};
 
 const readData = () => {
-  return JSON.parse(readFileSync(dataFilePath, "utf-8"));
+  return defaultData;
 };
 
 const writeData = (data) => {
-  writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
+  defaultData.users = data.users;
 };
 
 module.exports = { readData, writeData };
