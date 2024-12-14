@@ -76,6 +76,19 @@ components:
         name:
           type: string
           example: "Alice"
+
+    Token:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "NFT Nivel 1"
+        address:
+          type: string
+          example: "0xabcdef1234567890"
     
     Error:
       type: object
@@ -137,6 +150,39 @@ paths:
                 $ref: '#/components/schemas/Error'
         '404':
           description: Level not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /tokens/{tokenId}:
+    get:
+      summary: Get token address
+      description: Retrieve information about a specific level NFT
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: tokenId
+          required: true
+          schema:
+            type: integer
+          description: ID of the token address to retrieve
+      responses:
+        '200':
+          description: Token address retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '401':
+          description: Unauthorized - Invalid or missing authorization token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Token not found
           content:
             application/json:
               schema:

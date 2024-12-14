@@ -82,6 +82,21 @@ Obtiene datos de un nivel.
 }
 ```
 
+### GET /tokens/:tokenId
+
+Obtiene el address de un token.
+
+**Headers:**
+- Authorization: Bearer `<tu-token-jwt>`
+
+**Respuesta:**
+```json
+{
+    "id": 1,
+    "address": "0xabcdef1234567890"
+}
+```
+
 #### Errores:
 - 401 si no hay token válido
 - 404 si el nivel no existe

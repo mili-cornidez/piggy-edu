@@ -15,6 +15,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 const loginRoutes = require("./routes/login");
 const levelsRoutes = require("./routes/levels");
 const userRoutes = require("./routes/user");
+const tokensRoutes = require("./routes/tokens");
 
 app.get("/", (req, res) => {
   res.json({ message: "Backend is running!" });
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 app.use("/login", loginRoutes);
 app.use("/levels", levelsRoutes);
 app.use("/user", userRoutes);
+app.use("/tokens", tokensRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
