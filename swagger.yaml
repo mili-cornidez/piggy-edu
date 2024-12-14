@@ -66,6 +66,10 @@ components:
         wallet:
           type: string
           example: "0x1234567890abcdef"
+        level:
+          type: integer
+          example: 3
+          description: User's current level in the system
 
     Token:
       type: object
@@ -201,6 +205,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized - Invalid or missing token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /user/level:
+    put:
+      summary: Increment user level
+      description: Increment the level of the current authenticated user by 1
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Level incremented successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Level incremented"
+                  wallet:
+                    type: string
+                    example: "0x1234567890abcdef"
+                  level:
+                    type: integer
+                    example: 4
         '401':
           description: Unauthorized - Invalid or missing token
           content:

@@ -15,10 +15,11 @@ const loginUser = (req, res) => {
   let user = data.users.find((u) => u.wallet === wallet);
 
   if (!user) {
-    user = { wallet };
+    user = { wallet, level: 0 };
     data.users.push(user);
     writeData(data);
   }
+
 
   const token = jwt.sign({ wallet: user.wallet }, SECRET_KEY, { expiresIn: "1h" });
 
