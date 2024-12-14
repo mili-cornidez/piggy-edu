@@ -4,8 +4,6 @@ info:
   description: API for Piggy-Edu educational platform
   version: 1.0.0
 servers:
-  - url: http://localhost:3001
-    description: Development server
   - url: https://piggy-edu-production.up.railway.app/
     description: Production server
 
