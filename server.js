@@ -17,6 +17,7 @@ const levelsRoutes = require("./routes/levels");
 const userRoutes = require("./routes/user");
 const tokensRoutes = require("./routes/tokens");
 const paymasterRoutes = require("./routes/paymaster");
+const transactionRoutes = require("./routes/transaction");
 
 app.get("/", (req, res) => {
   res.json({ message: "Backend is running!" });
@@ -27,6 +28,7 @@ app.use("/levels", levelsRoutes);
 app.use("/user", userRoutes);
 app.use("/tokens", tokensRoutes);
 app.use("/paymaster", paymasterRoutes);
+app.use("/transaction", transactionRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

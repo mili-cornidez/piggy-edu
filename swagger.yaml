@@ -13,7 +13,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-  
+
   schemas:
     LoginRequest:
       type: object
@@ -93,6 +93,26 @@ components:
         address:
           type: string
           example: "0xDe6F1e5C07930AA9A65C9781A4885E6Bc76F9C52"
+
+    TransactionRequest:
+      type: object
+      required:
+        - recipientAddress
+      properties:
+        recipientAddress:
+          type: string
+          example: "0xRecipientAddress"
+          description: The address to mint the NFT for.
+
+    TransactionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        receipt:
+          type: object
+          description: Transaction receipt object from the blockchain.
     
     Error:
       type: object
@@ -275,6 +295,44 @@ paths:
                 $ref: '#/components/schemas/Error'
         '500':
           description: Error reading the paymaster data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /transaction:
+    post:
+      summary: Create a transaction to mint NFT
+      description: Mint an NFT for the specified recipient using the paymaster flow
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+      responses:
+        '200':
+          description: Transaction completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+        '400':
+          description: Bad request - Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - Invalid or missing token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
