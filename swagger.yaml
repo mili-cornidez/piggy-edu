@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Piggy-Edu API
   description: API for Piggy-Edu educational platform
-  version: 1.0.0
+  version: 1.0.1
 servers:
   - url: https://piggy-edu-production.up.railway.app/
     description: Production server
@@ -70,6 +70,16 @@ components:
           type: integer
           example: 3
           description: User's current level in the system
+        unmintedTokens:
+          type: array
+          description: Tokens earned but not yet minted
+          items:
+            $ref: '#/components/schemas/Token'
+        mintedTokens:
+          type: array
+          description: Tokens already minted
+          items:
+            $ref: '#/components/schemas/Token'
 
     Token:
       type: object
@@ -93,26 +103,6 @@ components:
         address:
           type: string
           example: "0xDe6F1e5C07930AA9A65C9781A4885E6Bc76F9C52"
-
-    TransactionRequest:
-      type: object
-      required:
-        - recipientAddress
-      properties:
-        recipientAddress:
-          type: string
-          example: "0xRecipientAddress"
-          description: The address to mint the NFT for.
-
-    TransactionResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-        receipt:
-          type: object
-          description: Transaction receipt object from the blockchain.
     
     Error:
       type: object
@@ -145,7 +135,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
   /levels/{levelId}:
     get:
       summary: Get level data
@@ -211,7 +201,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
   /user:
     get:
       summary: Get user data
@@ -237,38 +227,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
-  /user/level:
+
+  /user/level/{levelId}:
     put:
-      summary: Increment user level
-      description: Increment the level of the current authenticated user by 1
+      summary: Increment user level and add unminted token
+      description: Increment the level of the current authenticated user by 1 and assign the unminted token for the specified level. If the user already has the token for the level, it will not be added again.
       security:
         - bearerAuth: []
+      parameters:
+        - in: path
+          name: levelId
+          required: true
+          schema:
+            type: integer
+          description: ID of the level to assign
       responses:
         '200':
-          description: Level incremented successfully
+          description: Level updated and token added successfully. If the token already exists, it is not added again.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Level incremented"
-                  wallet:
-                    type: string
-                    example: "0x1234567890abcdef"
-                  level:
-                    type: integer
-                    example: 4
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request - Invalid operation (e.g., trying to skip levels).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
-          description: Unauthorized - Invalid or missing token
+          description: Unauthorized - Invalid or missing token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         '404':
-          description: User not found
+          description: User or token not found.
           content:
             application/json:
               schema:
@@ -295,44 +288,6 @@ paths:
                 $ref: '#/components/schemas/Error'
         '500':
           description: Error reading the paymaster data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-  /transaction:
-    post:
-      summary: Create a transaction to mint NFT
-      description: Mint an NFT for the specified recipient using the paymaster flow
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TransactionRequest'
-      responses:
-        '200':
-          description: Transaction completed successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionResponse'
-        '400':
-          description: Bad request - Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized - Invalid or missing token
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal server error
           content:
             application/json:
               schema:

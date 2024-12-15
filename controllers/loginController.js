@@ -15,11 +15,18 @@ const loginUser = (req, res) => {
   let user = data.users.find((u) => u.wallet === wallet);
 
   if (!user) {
-    user = { wallet, level: 0 };
+    user = { 
+      wallet, 
+      level: 0, 
+      unmintedTokens: [], 
+      mintedTokens: [] 
+    };
     data.users.push(user);
     writeData(data);
+  } else {
+    if (!user.unmintedTokens) user.unmintedTokens = [];
+    if (!user.mintedTokens) user.mintedTokens = [];
   }
-
 
   const token = jwt.sign({ wallet: user.wallet }, SECRET_KEY, { expiresIn: "1h" });
 
